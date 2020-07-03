@@ -1,0 +1,6 @@
+# sourced by your ~/.bashrc
+alias repos='cd $HOME/code && source $HOME/.bashrc'
+alias gh='cd $HOME/code/gh && source $HOME/.bashrc'
+alias ninjaenv='cd $HOME/code/gh/thesystemninjaneer/environment && source $HOME/.bashrc'
+alias ninjadev='cd $HOME/code/gh/thesystemninjaneer/dev && source $HOME/.bashrc'
+alias dev="docker run --rm -ti -v $HOME/code:/root/code -v $HOME/.aws:/root/.aws thesystemninjaneer/dev:latest bash"
