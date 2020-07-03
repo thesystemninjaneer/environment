@@ -1,0 +1,47 @@
+- name: install common sw
+  hosts: localhost
+  become: yes
+  gather_facts: true
+  tasks:
+    - name: Wait for system to become reachable
+      wait_for_connection:
+    - name: yum install
+      package:
+        name:
+          - zip
+          - vim
+          - unzip
+          - tree
+          - wget
+          - curl
+          - tar
+        state: latest
+
+- name: install docker from docker repo
+  hosts: localhost
+  become: yes
+  gather_facts: true
+  tasks:
+    - name:            Add docker ce repository
+      yum_repository:
+        name:          docker-ce
+        description:   Docker CE repo
+        baseurl:       https://download.docker.com/linux/fedora/$releasever/$basearch/stable
+        repo_gpgcheck: yes
+        gpgcakey:      https://download.docker.com/linux/fedora/gpg
+      when:            ansible_facts['distribution'] == "Fedora"
+    - name:    install docker ce
+      package:
+        name:
+          -    docker-ce
+          -    docker-ce-cli
+          -    containerd.io
+        state: latest
+    - name:    set docker cgroup backward compat if fedora 31 or newer (reboot needed)
+      command: grubby --update-kernel=ALL --args="systemd.unified_cgroup_hierarchy=0"
+      when:    ansible_facts['distribution'] == "Fedora" and ansible_facts['lsb']['major_release']|int >= 31 and ansible_facts['cmdline']['systemd.unified_cgroup_hierarchy']|int != 0
+    - name:    start docker daemon
+      systemd:
+        state: started
+        name:  docker
+      when:    ansible_facts['os_family'] == "RedHat"

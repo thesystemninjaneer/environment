@@ -1,0 +1,35 @@
+- name: install atom editor
+  hosts: localhost
+  become: yes
+  gather_facts: true
+  tasks:
+    - name: download latest atom rpm
+      get_url:
+          url: https://atom.io/download/rpm
+          dest: /tmp/atom.x86_64.rpm
+          mode: '0550'
+    - name: install atom
+      package:
+          name: /tmp/atom.x86_64.rpm
+          state: present
+
+- name: install terraform cli
+  hosts: localhost
+  become: yes
+  gather_facts: true
+  tasks:
+    - name: call tf github releases api
+      uri:
+        url: https://api.github.com/repos/hashicorp/terraform/releases/latest
+        return_content: yes
+        body_format: json
+      register: curl_api
+      failed_when: "'tag_name' not in curl_api.content"
+    - name: parse api json for latest tf version number
+      set_fact:
+        tf_ver: "{{ curl_api.json.tag_name | regex_replace('^v(.*)$', '\\1') }}"
+    - name: download latest terraform
+      unarchive:
+        src: https://releases.hashicorp.com/terraform/{{ tf_ver }}/terraform_{{ tf_ver }}_linux_amd64.zip
+        dest: /usr/local/bin
+        remote_src: yes
