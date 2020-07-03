@@ -1,0 +1,14 @@
+- name: home dir setup
+  hosts: localhost
+  become: no
+  gather_facts: true
+  tasks:
+  - name: Create code dir
+    file:
+      path: "{{ ansible_user_dir }}/code/gh/thesystemninjaneer"
+      state: directory
+      mode: '0775'
+  - name: clone dev repo
+    git:
+      repo: 'https://github.com/thesystemninjaneer/dev.git'
+      dest: "{{ ansible_user_dir }}/code/gh/thesystemninjaneer/dev"

@@ -1,3 +1,4 @@
+# This is meant to be copied in to $HOME if you're tracking this repo there.
 #Ignore everything...
 *
 #..execpt these
@@ -5,3 +6,9 @@
 !.bashrc
 !.bash_profile
 !.ssh/config
+!bootstrap
+!**.yml
+!README.md
+!LICENSE
+!Makefile
+!.git*
