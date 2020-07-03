@@ -21,4 +21,3 @@ alias gsmil='cd $HOME/code/gsmil'
 alias fitz='cd $HOME/code/gsmil/1298430637'
 alias vpc='cd $HOME/code/gsmil/ndaas/vpc'
 alias dev="docker run --rm -ti -v $HOME/code:/root/code -v $HOME/.aws:/root/.aws thesystemninjaneer/dev:latest bash"
-
