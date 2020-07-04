@@ -14,10 +14,4 @@ parse_git_branch() {
 }
 export PS1="\u@\h \[\033[32m\]\w\[\033[33m\]\$(parse_git_branch)\[\033[00m\] $ "
 
-alias code='cd $HOME/code'
-alias gh='cd $HOME/code/gh'
-alias ninja='cd $HOME/code/gh/thesystemninjaneer'
-alias gsmil='cd $HOME/code/gsmil'
-alias fitz='cd $HOME/code/gsmil/1298430637'
-alias vpc='cd $HOME/code/gsmil/ndaas/vpc'
-alias dev="docker run --rm -ti -v $HOME/code:/root/code -v $HOME/.aws:/root/.aws thesystemninjaneer/dev:latest bash"
+source $HOME/code/gh/thesystemninjaneer/environment/aliases
