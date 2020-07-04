@@ -30,12 +30,13 @@
         repo_gpgcheck: yes
         gpgcakey:      https://download.docker.com/linux/fedora/gpg
       when:            ansible_facts['distribution'] == "Fedora"
-    - name:    install docker ce
+    - name:    install docker ce and compose
       package:
         name:
           -    docker-ce
           -    docker-ce-cli
           -    containerd.io
+          -    docker-compose
         state: latest
     - name:    set docker cgroup backward compat if fedora 31 or newer (reboot needed)
       command: grubby --update-kernel=ALL --args="systemd.unified_cgroup_hierarchy=0"
