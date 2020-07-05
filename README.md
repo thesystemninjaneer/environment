@@ -42,6 +42,7 @@ Ansible installs/configures the following software using these distinct types of
 1. wget
 1. curl
 1. tar
+1. jq
 1. dnf-automatic (fedora only)
 
 ### 3rd Party Sources
