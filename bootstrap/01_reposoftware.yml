@@ -15,6 +15,7 @@
           - wget
           - curl
           - tar
+          - jq
         state: latest
     - name:    install fedora specific sw
       package:
