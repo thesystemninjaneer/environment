@@ -22,19 +22,19 @@
           -    dnf-automatic  #auto dl/install new updates
         state: latest
       when:    ansible_facts['distribution'] == "Fedora"
-    - name: set auto security updates on fedora
+    - name: set security updates on fedora
       lineinfile:
         dest: /etc/dnf/automatic.conf
         regexp: '^.*upgrade_type.*$'
         line: 'upgrade_type = security'
       when:    ansible_facts['distribution'] == "Fedora"
-    - name: set auto apply of all security updates on fedora
+    - name: set updates to apply on fedora
       lineinfile:
         dest: /etc/dnf/automatic.conf
         regexp: '^.*apply_updates.*$'
         line: 'apply_updates = yes'
       when:    ansible_facts['distribution'] == "Fedora"
-    - name: start fedora auto updates
+    - name: start fedora auto update service
       service:
         name: dnf-automatic.timer
         enabled: yes
