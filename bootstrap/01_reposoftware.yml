@@ -5,7 +5,7 @@
   tasks:
     - name: Wait for system to become reachable
       wait_for_connection:
-    - name: yum install
+    - name: install linux neutral packages
       package:
         name:
           - zip
@@ -16,8 +16,34 @@
           - curl
           - tar
         state: latest
+    - name:    install fedora specific sw
+      package:
+        name:
+          -    dnf-automatic  #auto dl/install new updates
+        state: latest
+      when:    ansible_facts['distribution'] == "Fedora"
+    - name: set security updates on fedora
+      lineinfile:
+        dest: /etc/dnf/automatic.conf
+        regexp: '^.*upgrade_type.*$'
+        line: 'upgrade_type = security'
+      when:    ansible_facts['distribution'] == "Fedora"
+    - name: set updates to apply on fedora
+      lineinfile:
+        dest: /etc/dnf/automatic.conf
+        regexp: '^.*apply_updates.*$'
+        line: 'apply_updates = yes'
+      when:    ansible_facts['distribution'] == "Fedora"
+    - name: start fedora auto update service
+      service:
+        name: dnf-automatic.timer
+        enabled: yes
+        state: started
+      when:    ansible_facts['distribution'] == "Fedora"
 
-- name: install docker from docker repo
+
+
+- name: install docker from docker fedora repo
   hosts: localhost
   become: yes
   gather_facts: true
